@@ -23,8 +23,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.location.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
-import java.util.jar.Manifest
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        supportActionBar?.hide()
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)
@@ -54,6 +53,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //Unique value
     private val PERMISSION_ID = 42
 
     private fun requestPermissions() {
@@ -138,10 +138,30 @@ class MainActivity : AppCompatActivity() {
             gcd.getFromLocation(location.latitude, location.longitude, 1)
 
         if (addresses.isNotEmpty()) {
-            val country: String = addresses[0].getCountryName()
-            findViewById<TextView>(R.id.locationText).text = "There are _ new cases in " + country
+            val countryFlag: String = addresses[0].countryCode.toFlagEmoji()
+            val country: String = addresses[0].countryName
+            findViewById<TextView>(R.id.locationText).text = "There are __ new cases in " + countryFlag + ' ' + country
         }
 
+    }
+
+    //Function to get flag emoji from country code
+    private fun String.toFlagEmoji(): String {
+        // 1. It first checks if the string consists of only 2 characters: ISO 3166-1 alpha-2 two-letter country codes (https://en.wikipedia.org/wiki/Regional_Indicator_Symbol).
+        if (this.length != 2) {
+            return this
+        }
+
+        val countryCodeCaps = this.toUpperCase() // upper case is important because we are calculating offset
+        val firstLetter = Character.codePointAt(countryCodeCaps, 0) - 0x41 + 0x1F1E6
+        val secondLetter = Character.codePointAt(countryCodeCaps, 1) - 0x41 + 0x1F1E6
+
+        // 2. It then checks if both characters are alphabet
+        if (!countryCodeCaps[0].isLetter() || !countryCodeCaps[1].isLetter()) {
+            return this
+        }
+
+        return String(Character.toChars(firstLetter)) + String(Character.toChars(secondLetter))
     }
 
 

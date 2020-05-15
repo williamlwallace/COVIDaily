@@ -1,6 +1,7 @@
 package com.example.covid_19.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,11 +29,10 @@ class HomeFragment : Fragment() {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-
+//        val textView: TextView = root.findViewById(R.id.text_home)
+//        homeViewModel.text.observe(viewLifecycleOwner, Observer {
+//            textView.text = it
+//        })
         get("https://api.covid19api.com/total/country/new-zealand")
 
         return root
@@ -50,6 +50,7 @@ class HomeFragment : Fragment() {
                     val body = response.body()?.string()
                     val gson = GsonBuilder().create()
                     val stats: List<CountryStats> = gson.fromJson(body, Array<CountryStats>::class.java).toList()
+                    Log.d("STATS", stats.last().Confirmed.toString())
                     homeConfirmedCount.text = stats.last().Confirmed.toString()
                     homeRecoveredCount.text = stats.last().Recovered.toString()
                     homeDeathsCount.text = stats.last().Deaths.toString()
