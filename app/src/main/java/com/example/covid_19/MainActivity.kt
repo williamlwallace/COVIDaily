@@ -11,7 +11,6 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
-import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -27,12 +26,14 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     lateinit var mFusedLocationClient: FusedLocationProviderClient
+    lateinit var sharedPreference: SharedPreference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        sharedPreference = SharedPreference(this)
 
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
@@ -139,8 +140,10 @@ class MainActivity : AppCompatActivity() {
 
         if (addresses.isNotEmpty()) {
             val countryFlag: String = addresses[0].countryCode.toFlagEmoji()
-            val country: String = addresses[0].countryName
-            findViewById<TextView>(R.id.locationText).text = "There are __ new cases in " + countryFlag + ' ' + country
+            val country: String = addresses[0].getCountryName()
+            sharedPreference.save("COUNTRY", country)
+            sharedPreference.save("COUNTRY_KEBAB_CASE", country.toKebabCase())
+            sharedPreference.save("COUNTRY_FLAG", countryFlag)
         }
 
     }
@@ -164,6 +167,8 @@ class MainActivity : AppCompatActivity() {
         return String(Character.toChars(firstLetter)) + String(Character.toChars(secondLetter))
     }
 
-
+    private fun String.toKebabCase(): String {
+        return this.toLowerCase().replace(" ", "-")
+    }
 
 }

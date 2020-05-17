@@ -33,16 +33,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/locationText"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto"
-            android:paddingBottom="15dp"
-            android:text="There are 12 new cases in United States"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <TextView
+                android:id="@+id/newCasesText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:paddingBottom="15dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/locationText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:paddingBottom="15dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+        </LinearLayout>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
