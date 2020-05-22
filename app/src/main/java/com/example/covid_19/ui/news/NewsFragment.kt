@@ -2,6 +2,7 @@ package com.example.covid_19.ui.news
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
@@ -36,7 +37,10 @@ class NewsFragment : Fragment() {
     var headlines: List<Headline> = listOf()
         set(value) {
             field = value
-            newsPicker.adapter = NewsAdapter(this.requireContext(), field)
+            newsPicker.adapter = NewsAdapter(this.requireContext(), field) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it.url))
+                startActivity(intent)
+            }
         }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -49,7 +53,7 @@ class NewsFragment : Fragment() {
                 ViewModelProviders.of(this).get(NewsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_news, container, false)
 
-        val parameters = mapOf("q" to "covid", "apiKey" to KEY)
+        val parameters = mapOf("q" to "covid", "apiKey" to KEY, "country" to "nz")
         val url = parameterizeUrl("https://newsapi.org/v2/top-headlines", parameters)
         HeadlinesDownloader(this).execute(url)
 
@@ -61,8 +65,8 @@ class NewsFragment : Fragment() {
         newsPicker = view!!.findViewById<RecyclerView>(R.id.headlinesPicker)
         val layoutManager = LinearLayoutManager(this.requireContext())
         newsPicker.layoutManager = layoutManager
-        val decoration = DividerItemDecoration(this.requireContext(), layoutManager.orientation)
-        newsPicker.addItemDecoration(decoration)
+//        val decoration = DividerItemDecoration(this.requireContext(), layoutManager.orientation)
+//        newsPicker.addItemDecoration(decoration)
 
     }
 
@@ -77,7 +81,12 @@ class NewsFragment : Fragment() {
             val headlinesJson = result.getJSONArray("articles")
             val headlines = (0 until headlinesJson.length()).map { i ->
                 val headline = headlinesJson.getJSONObject(i)
-                Headline(headline.getString("title"), headline.getString("url"))
+                Headline(
+                    headline.getString("title"),
+                    headline.getString("urlToImage"),
+                    headline.getString("publishedAt"),
+                    headline.getString("url")
+                )
             }
             return headlines
         }
