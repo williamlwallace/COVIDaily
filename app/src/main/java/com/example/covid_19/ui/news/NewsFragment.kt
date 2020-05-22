@@ -1,6 +1,7 @@
 package com.example.covid_19.ui.news
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
@@ -12,6 +13,7 @@ import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.covid_19.Headline
@@ -29,12 +31,12 @@ class NewsFragment : Fragment() {
     private lateinit var newsViewModel: NewsViewModel
     private var KEY = "a10bc7fd2caf45058eef8547fb8e7b74"
     private lateinit var sourcesPicker: Spinner
-    private var newsPicker : RecyclerView = headlinesPicker
+    private lateinit var newsPicker : RecyclerView
 
     var headlines: List<Headline> = listOf()
         set(value) {
             field = value
-            newsPicker.adapter = NewsAdapter(this, field)
+            newsPicker.adapter = NewsAdapter(this.requireContext(), field)
         }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -46,25 +48,22 @@ class NewsFragment : Fragment() {
         newsViewModel =
                 ViewModelProviders.of(this).get(NewsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_news, container, false)
-//        val textView: TextView = root.findViewById(R.id.text_news)
-//        newsViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
-
-        val layoutManager = LinearLayoutManager(activity)
-        newsPicker.layoutManager = layoutManager
-
-
-
-
-
 
         val parameters = mapOf("q" to "covid", "apiKey" to KEY)
         val url = parameterizeUrl("https://newsapi.org/v2/top-headlines", parameters)
         HeadlinesDownloader(this).execute(url)
 
-
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        newsPicker = view!!.findViewById<RecyclerView>(R.id.headlinesPicker)
+        val layoutManager = LinearLayoutManager(this.requireContext())
+        newsPicker.layoutManager = layoutManager
+        val decoration = DividerItemDecoration(this.requireContext(), layoutManager.orientation)
+        newsPicker.addItemDecoration(decoration)
+
     }
 
 
