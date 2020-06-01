@@ -1,6 +1,10 @@
 package com.example.covid_19
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -8,6 +12,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
@@ -30,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var mFusedLocationClient: FusedLocationProviderClient
     lateinit var sharedPreference: SharedPreference
+    private var CHANNEL_ID: String = "gang_channel"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +60,36 @@ class MainActivity : AppCompatActivity() {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         getLastLocation()
+        createNotificationChannel()
 
+        // Daily notifications
+        val calendar = Calendar.getInstance()
+        calendar[Calendar.HOUR_OF_DAY] = 9
+        calendar[Calendar.MINUTE] = 30
+        calendar[Calendar.SECOND] = 0
+        val intent1 = Intent(applicationContext, AlarmReceiver::class.java)
+        val pendingIntent =
+            PendingIntent.getBroadcast(applicationContext, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT)
+        val alarmManager: AlarmManager =
+            (getSystemService(Context.ALARM_SERVICE) as AlarmManager)
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
+    }
+
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
     //Unique value
@@ -175,5 +210,4 @@ class MainActivity : AppCompatActivity() {
     private fun String.toKebabCase(): String {
         return this.toLowerCase().replace(" ", "-")
     }
-
 }
