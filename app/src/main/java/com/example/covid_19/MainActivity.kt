@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        supportActionBar?.hide()
+        getSupportActionBar()?.setElevation(0F);
 
         fm.beginTransaction().add(R.id.myFragment, settingsFragment, "4").hide(settingsFragment)
             .commit()

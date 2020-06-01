@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#039BE5">
+    android:background="@drawable/bg_gradient">
 
     <FrameLayout
         android:id="@+id/myFragment"

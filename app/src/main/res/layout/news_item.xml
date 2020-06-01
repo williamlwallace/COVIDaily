@@ -27,14 +27,15 @@
                     android:layout_alignParentTop="true"
                     android:scaleType="centerCrop">
                 </ImageView>
+
                 <TextView
                     android:id="@+id/headlineText"
+                    style="@style/newsHeadlineText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:fontFamily="@font/adamina"
                     android:text="Headline"
-                    style="@style/newsHeadlineText"
                     android:textColor="@color/backgroundText" />
 
                 <Button
