@@ -74,13 +74,14 @@ class HomeFragment : Fragment() {
         val newCases = todayStats.Confirmed - yesterdayStats.Confirmed
         val newCasesString: String =
             if (newCases > 1 || newCases == 0) {
-                "There are $newCases new cases in "
+                "There are $newCases new cases"
             }  else {
-                "There is $newCases new case in "
+                "There is $newCases new case"
             }
+        sharedPreference.save("DAILY_NOTIFICATION", "$newCasesString in the past 24 hours")
 
         activity?.runOnUiThread(Runnable {
-            newCasesText.text = newCasesString
+            newCasesText.text = "$newCasesString in "
             homeConfirmedCount.text = todayStats.Confirmed.toString()
             homeRecoveredCount.text = todayStats.Recovered.toString()
             homeDeathsCount.text = todayStats.Deaths.toString()

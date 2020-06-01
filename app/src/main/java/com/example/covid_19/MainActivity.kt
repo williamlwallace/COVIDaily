@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         calendar[Calendar.MINUTE] = 30
         calendar[Calendar.SECOND] = 0
         val intent1 = Intent(applicationContext, AlarmReceiver::class.java)
+        intent1.putExtra("DAILY_NOTIFICATION", sharedPreference.getValueString("DAILY_NOTIFICATION"))
         val pendingIntent =
             PendingIntent.getBroadcast(applicationContext, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT)
         val alarmManager: AlarmManager =
