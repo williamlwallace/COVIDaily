@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.covid_19.R
 
-class StatisticsFragment : Fragment() {
+class SavedFragment : Fragment() {
 
-    private lateinit var statisticsViewModel: StatisticsViewModel
+    private lateinit var savedViewModel: SavedViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        statisticsViewModel =
-                ViewModelProviders.of(this).get(StatisticsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_statistics, container, false)
+        savedViewModel =
+                ViewModelProviders.of(this).get(SavedViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_saved, container, false)
         val textView: TextView = root.findViewById(R.id.text_statistics)
-        statisticsViewModel.text.observe(viewLifecycleOwner, Observer {
+        savedViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root
