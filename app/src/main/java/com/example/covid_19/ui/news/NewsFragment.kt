@@ -23,6 +23,7 @@ import java.io.BufferedInputStream
 import java.lang.ref.WeakReference
 import java.net.URL
 import java.nio.charset.Charset
+import java.util.*
 import javax.net.ssl.HttpsURLConnection
 
 class NewsFragment : Fragment() {
@@ -34,6 +35,7 @@ class NewsFragment : Fragment() {
     private var KEY = "a10bc7fd2caf45058eef8547fb8e7b74"
     private var searchView: SearchView? = null
     private var queryTextListener: SearchView.OnQueryTextListener? = null
+    private val REQUEST_CODE_SPEECH_INPUT = 69
 
     var headlines: ArrayList<Headline> = arrayListOf()
         set(value) {
