@@ -141,8 +141,10 @@ class MainActivity : AppCompatActivity() {
         if (addresses.isNotEmpty()) {
             val countryFlag: String = addresses[0].countryCode.toFlagEmoji()
             val country: String = addresses[0].getCountryName()
+            val countryISO: String = addresses[0].countryCode // Country ISO code for newsapi.org
             sharedPreference.save("COUNTRY", country)
-            sharedPreference.save("COUNTRY_KEBAB_CASE", country.toKebabCase())
+            sharedPreference.save("COUNTRY_ISO", countryISO)
+            sharedPreference.save("COUNTRY_KEBAB_CASE", country.toKebabCase()) // Kebab case version of country name needed for Covid API
             sharedPreference.save("COUNTRY_FLAG", countryFlag)
         }
 

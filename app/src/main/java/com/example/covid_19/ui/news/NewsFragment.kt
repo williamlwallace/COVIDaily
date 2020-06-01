@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.covid_19.Headline
 import com.example.covid_19.R
+import com.example.covid_19.SharedPreference
 import kotlinx.android.synthetic.main.fragment_news.*
 import org.json.JSONObject
 import java.io.BufferedInputStream
@@ -33,6 +34,7 @@ class NewsFragment : Fragment() {
     private var KEY = "a10bc7fd2caf45058eef8547fb8e7b74"
     private lateinit var sourcesPicker: Spinner
     private lateinit var newsPicker : RecyclerView
+    lateinit var sharedPreference: SharedPreference
 
     var headlines: List<Headline> = listOf()
         set(value) {
@@ -43,7 +45,6 @@ class NewsFragment : Fragment() {
             }
         }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -53,21 +54,21 @@ class NewsFragment : Fragment() {
                 ViewModelProviders.of(this).get(NewsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_news, container, false)
 
-        val parameters = mapOf("q" to "covid", "apiKey" to KEY, "country" to "nz")
-        val url = parameterizeUrl("https://newsapi.org/v2/top-headlines", parameters)
-        HeadlinesDownloader(this).execute(url)
-
         return root
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        sharedPreference = SharedPreference(activity!!.applicationContext)
+        val countryISO = sharedPreference.getValueString("COUNTRY_ISO")
+        val parameters = mapOf("q" to "covid", "apiKey" to KEY, "country" to countryISO!!)
+        val url = parameterizeUrl("https://newsapi.org/v2/top-headlines", parameters)
+        HeadlinesDownloader(this).execute(url)
+
         newsPicker = view!!.findViewById<RecyclerView>(R.id.headlinesPicker)
         val layoutManager = LinearLayoutManager(this.requireContext())
         newsPicker.layoutManager = layoutManager
-//        val decoration = DividerItemDecoration(this.requireContext(), layoutManager.orientation)
-//        newsPicker.addItemDecoration(decoration)
-
     }
 
 
