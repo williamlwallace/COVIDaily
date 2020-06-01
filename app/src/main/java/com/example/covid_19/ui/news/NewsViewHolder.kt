@@ -1,9 +1,7 @@
 package com.example.covid_19.ui.news
 
-import android.content.Intent
 import android.graphics.Color
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -13,12 +11,10 @@ import org.w3c.dom.Text
 class NewsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val headlineText: TextView = view.findViewById(R.id.headlineText)
     val headlineImage: ImageView = view.findViewById(R.id.newsImage)
-    val shareButton: Button = view.findViewById(R.id.shareBtn)
 
     var isActive: Boolean = false
         set(value) {
             field = value
             itemView.setBackgroundColor(if (field) Color.parseColor("#4D000000") else Color.TRANSPARENT)
         }
-
 }
