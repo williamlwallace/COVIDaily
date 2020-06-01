@@ -16,22 +16,27 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
-import android.view.Menu
-import android.view.MenuInflater
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import com.example.covid_19.ui.home.HomeFragment
+import com.example.covid_19.ui.news.NewsFragment
+import com.example.covid_19.ui.statistics.SavedFragment
+import com.example.covid_19.ui.statistics.SettingsFragment
 import com.google.android.gms.location.*
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
+
+    private val homeFragment: Fragment = HomeFragment()
+    private val newsFragment: Fragment = NewsFragment()
+    private val settingsFragment: Fragment = SettingsFragment()
+    private val savedFragment: Fragment = SavedFragment()
+    private val fm: FragmentManager = supportFragmentManager
+    var active: Fragment = homeFragment
 
     lateinit var mFusedLocationClient: FusedLocationProviderClient
     lateinit var sharedPreference: SharedPreference
@@ -41,23 +46,38 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 //        supportActionBar?.hide()
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+
+        fm.beginTransaction().add(R.id.myFragment, settingsFragment, "4").hide(settingsFragment)
+            .commit()
+        fm.beginTransaction().add(R.id.myFragment, savedFragment, "3").hide(savedFragment)
+            .commit()
+        fm.beginTransaction().add(R.id.myFragment, newsFragment, "2").hide(newsFragment)
+            .commit()
+        fm.beginTransaction().add(R.id.myFragment, homeFragment, "1").commit()
+
+        nav_view.setOnNavigationItemSelectedListener {item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    fm.beginTransaction().hide(active).show(homeFragment).commit();
+                    active = homeFragment
+                }
+                R.id.navigation_news -> {
+                    fm.beginTransaction().hide(active).show(newsFragment).commit();
+                    active = newsFragment
+                }
+                R.id.navigation_statistics -> {
+                    fm.beginTransaction().hide(active).show(savedFragment).commit();
+                    active = savedFragment
+                }
+                R.id.navigation_settings -> {
+                    fm.beginTransaction().hide(active).show(settingsFragment).commit();
+                    active = settingsFragment
+                }
+            }
+            true
+        }
+
         sharedPreference = SharedPreference(this)
-
-        val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home,
-                R.id.navigation_news,
-                R.id.navigation_statistics,
-                R.id.navigation_settings
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
-
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         getLastLocation()
         createNotificationChannel()
@@ -69,11 +89,15 @@ class MainActivity : AppCompatActivity() {
         calendar[Calendar.SECOND] = 0
         val intent1 = Intent(applicationContext, AlarmReceiver::class.java)
         intent1.putExtra("DAILY_NOTIFICATION", sharedPreference.getValueString("DAILY_NOTIFICATION"))
-        val pendingIntent =
-            PendingIntent.getBroadcast(applicationContext, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT)
-        val alarmManager: AlarmManager =
-            (getSystemService(Context.ALARM_SERVICE) as AlarmManager)
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
+        val alarmUp =
+            (PendingIntent.getBroadcast(applicationContext, 0, intent1, PendingIntent.FLAG_NO_CREATE)) != null
+        if (!alarmUp) {
+            val pendingIntent =
+                PendingIntent.getBroadcast(applicationContext, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT)
+            val alarmManager: AlarmManager =
+                (getSystemService(Context.ALARM_SERVICE) as AlarmManager)
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
+        }
     }
 
     private fun createNotificationChannel() {
