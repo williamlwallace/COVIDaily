@@ -23,8 +23,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.covid_19.ui.home.HomeFragment
 import com.example.covid_19.ui.news.NewsFragment
-import com.example.covid_19.ui.statistics.SavedFragment
-import com.example.covid_19.ui.statistics.SettingsFragment
+import com.example.covid_19.ui.saved.SavedFragment
+import com.example.covid_19.ui.saved.SettingsFragment
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*

@@ -19,13 +19,13 @@
 
     <fragment
         android:id="@+id/navigation_statistics"
-        android:name="com.example.covid_19.ui.statistics.SavedFragment"
+        android:name="com.example.covid_19.ui.saved.SavedFragment"
         android:label="@string/title_saved"
         tools:layout="@layout/fragment_saved" />
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.example.covid_19.ui.statistics.SettingsFragment"
+        android:name="com.example.covid_19.ui.saved.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.covid_19.ui.statistics
+package com.example.covid_19.ui.saved
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

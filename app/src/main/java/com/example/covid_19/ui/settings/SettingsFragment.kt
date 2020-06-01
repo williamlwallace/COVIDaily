@@ -1,4 +1,4 @@
-package com.example.covid_19.ui.statistics
+package com.example.covid_19.ui.saved
 
 import android.os.Bundle
 import android.view.LayoutInflater

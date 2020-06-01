@@ -1,13 +1,13 @@
-package com.example.covid_19.ui.news
+package com.example.covid_19.ui.saved
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.covid_19.AppDatabase
@@ -16,37 +16,43 @@ import com.example.covid_19.R
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class NewsAdapter (
-    val context: Context,
-    val headlines: ArrayList<Headline>,
-    val clickListener: (Headline) -> Unit): RecyclerView.Adapter<NewsViewHolder>(), Filterable {
+class SavedAdapter internal constructor(
+    val context: Context
+): RecyclerView.Adapter<SavedAdapter.SavedViewHolder>(), Filterable {
 
+    private var headlines = emptyList<Headline>() // Cached copy of words
+    private var headlinesAll = ArrayList<Headline>(headlines)
     private var selectedIndex = RecyclerView.NO_POSITION
-    private val headlinesAll = ArrayList<Headline>(headlines)
 
-    override fun getItemCount(): Int = headlines.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, p1: Int): NewsViewHolder {
+    inner class SavedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val headlineText: TextView = itemView.findViewById(R.id.headlineText)
+        val headlineImage: ImageView = itemView.findViewById(R.id.newsImage)
+        var isActive: Boolean = false
+            set(value) {
+                field = value
+                itemView.setBackgroundColor(if (field) Color.parseColor("#4D000000") else Color.TRANSPARENT)
+            }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedViewHolder {
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.news_item, parent, false)
-        val holder = NewsViewHolder(view)
+        val holder = SavedViewHolder(view)
 
         //News article click listener
         view.setOnClickListener {
-            clickListener(headlines[holder.adapterPosition])
-            val oldSelectedIndex = selectedIndex
-            selectedIndex = holder.adapterPosition
-            notifyItemChanged(selectedIndex)
-            notifyItemChanged(oldSelectedIndex)
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse((headlines[holder.adapterPosition]).url))
+            context.startActivity(intent)
         }
 
-        //Save button functionality
+        //Unsave news article
         val saveButton = view.findViewById<Button>(R.id.saveButton)
         saveButton.setOnClickListener {
             GlobalScope.launch {
-                AppDatabase.getDatabase(context, this).headlineDao().insert(headlines[holder.adapterPosition])
+                AppDatabase.getDatabase(context, this).headlineDao().delete(headlines[holder.adapterPosition])
             }
-            Toast.makeText(context, "Saved article!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Unsaved article!", Toast.LENGTH_SHORT).show()
         }
 
         //Share button functionality
@@ -61,10 +67,9 @@ class NewsAdapter (
             context.startActivity(Intent.createChooser(intent, "Share Using"))
         }
         return holder
-
     }
 
-    override fun onBindViewHolder(holder: NewsViewHolder, i: Int) {
+    override fun onBindViewHolder(holder: SavedViewHolder, i: Int) {
         holder.headlineText.text = headlines[i].title
         Glide
             .with(context)
@@ -73,6 +78,13 @@ class NewsAdapter (
             .into(holder.headlineImage);
         holder.isActive = selectedIndex == i
     }
+
+    internal fun setHeadlines(headlines: ArrayList<Headline>) {
+        this.headlines = headlines
+        notifyDataSetChanged()
+    }
+
+    override fun getItemCount() = headlines.size
 
     override fun getFilter(): Filter {
         return myFilter
@@ -98,6 +110,7 @@ class NewsAdapter (
 
         //Automatic on UI thread
         override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
+            val headlines : ArrayList<Headline> = headlines as ArrayList<Headline>
             headlines.clear()
             headlines.addAll(filterResults.values as Collection<Headline>)
             notifyDataSetChanged()

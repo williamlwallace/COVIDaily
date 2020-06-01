@@ -8,11 +8,7 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -89,12 +85,10 @@ class NewsFragment : Fragment() {
             queryTextListener = object : SearchView.OnQueryTextListener {
                 override fun onQueryTextChange(newText: String): Boolean {
                     newsAdapter.filter.filter(newText)
-                    Log.i("onQueryTextSubmit", newText)
                     return true
                 }
 
                 override fun onQueryTextSubmit(query: String): Boolean {
-                    Log.i("onQueryTextSubmit", query)
                     return true
                 }
             }
