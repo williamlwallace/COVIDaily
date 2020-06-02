@@ -8,6 +8,10 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -16,6 +20,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -29,7 +34,7 @@ import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private val homeFragment: Fragment = HomeFragment()
     private val newsFragment: Fragment = NewsFragment()
@@ -41,6 +46,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var mFusedLocationClient: FusedLocationProviderClient
     lateinit var sharedPreference: SharedPreference
     private var CHANNEL_ID: String = "gang_channel"
+    private lateinit var sensorManager: SensorManager
+    private var temperature: Sensor? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,6 +105,13 @@ class MainActivity : AppCompatActivity() {
                 (getSystemService(Context.ALARM_SERVICE) as AlarmManager)
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
         }
+
+        //Temperature
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            temperature = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
+        }
+
 
     }
 
@@ -236,5 +250,25 @@ class MainActivity : AppCompatActivity() {
     private fun String.toKebabCase(): String {
         return this.toLowerCase().replace(" ", "-")
     }
+
+    override fun onResume() {
+        super.onResume()
+        sensorManager.registerListener(this, temperature, SensorManager.SENSOR_DELAY_NORMAL)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sensorManager.unregisterListener(this)
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        val ambient_temp = event?.values?.get(0);
+        val tempText: TextView = findViewById(R.id.tempText)
+        tempText.text = "${ambient_temp.toString()} °C"
+    }
+
 
 }

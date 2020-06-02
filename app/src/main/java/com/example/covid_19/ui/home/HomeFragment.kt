@@ -45,7 +45,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedPreference = SharedPreference(activity!!.applicationContext)
+        sharedPreference = SharedPreference(requireActivity().applicationContext)
         val country = sharedPreference.getValueString("COUNTRY")
         val countryKebab = sharedPreference.getValueString("COUNTRY_KEBAB_CASE")
         val countryFlag = sharedPreference.getValueString("COUNTRY_FLAG")
@@ -59,6 +59,7 @@ class HomeFragment : Fragment() {
         val ttb = AnimationUtils.loadAnimation(context, R.anim.ttb)
         val btt = AnimationUtils.loadAnimation(context, R.anim.btt)
         dateText.startAnimation(ttb)
+        tempText.startAnimation(ttb)
         mainContainer.startAnimation(btt)
 
 
