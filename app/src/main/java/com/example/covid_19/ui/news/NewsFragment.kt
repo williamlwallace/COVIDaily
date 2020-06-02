@@ -35,7 +35,6 @@ class NewsFragment : Fragment() {
     private var KEY = "a10bc7fd2caf45058eef8547fb8e7b74"
     private var searchView: SearchView? = null
     private var queryTextListener: SearchView.OnQueryTextListener? = null
-    private val REQUEST_CODE_SPEECH_INPUT = 69
 
     var headlines: ArrayList<Headline> = arrayListOf()
         set(value) {
@@ -67,7 +66,7 @@ class NewsFragment : Fragment() {
         val url = parameterizeUrl("https://newsapi.org/v2/top-headlines", parameters)
         HeadlinesDownloader(this).execute(url)
 
-        newsPicker = view!!.findViewById<RecyclerView>(R.id.headlinesPicker)
+        newsPicker = view.findViewById<RecyclerView>(R.id.headlinesPicker)
         val layoutManager = LinearLayoutManager(this.requireContext())
         newsPicker.layoutManager = layoutManager
         setHasOptionsMenu(true);

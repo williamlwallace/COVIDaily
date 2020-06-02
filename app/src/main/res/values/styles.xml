@@ -8,6 +8,12 @@
         <item name="colorAccent">#FFB300</item>
     </style>
 
+    <!-- This style is for the splash screen -->
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="newsHeadlineText">
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingBottom">7dp</item>

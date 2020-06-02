@@ -235,4 +235,5 @@ class MainActivity : AppCompatActivity() {
     private fun String.toKebabCase(): String {
         return this.toLowerCase().replace(" ", "-")
     }
+
 }
