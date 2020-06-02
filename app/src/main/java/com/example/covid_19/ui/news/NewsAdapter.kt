@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -41,7 +41,7 @@ class NewsAdapter (
         }
 
         //Save button functionality
-        val saveButton = view.findViewById<Button>(R.id.saveButton)
+        val saveButton = view.findViewById<ImageButton>(R.id.saveButton)
         saveButton.setOnClickListener {
             GlobalScope.launch {
                 AppDatabase.getDatabase(context, this).headlineDao().insert(headlines[holder.adapterPosition])
@@ -50,7 +50,7 @@ class NewsAdapter (
         }
 
         //Share button functionality
-        val shareButton = view.findViewById<Button>(R.id.shareButton)
+        val shareButton = view.findViewById<ImageButton>(R.id.shareButton)
         shareButton.setOnClickListener{
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "plain/text"

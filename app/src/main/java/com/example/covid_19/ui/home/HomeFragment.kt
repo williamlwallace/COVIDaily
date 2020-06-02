@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -16,6 +17,9 @@ import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.fragment_home.*
 import okhttp3.*
 import java.io.IOException
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 
 class HomeFragment : Fragment() {
@@ -29,12 +33,11 @@ class HomeFragment : Fragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-
-
     ): View? {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
+
         return root
     }
 
@@ -48,6 +51,17 @@ class HomeFragment : Fragment() {
         val countryFlag = sharedPreference.getValueString("COUNTRY_FLAG")
         get("https://api.covid19api.com/total/country/$countryKebab")
         locationText.text = "$countryFlag $country"
+        dateText.text =
+            LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL))
+                .toString()
+
+        //animation
+        val ttb = AnimationUtils.loadAnimation(context, R.anim.ttb)
+        val btt = AnimationUtils.loadAnimation(context, R.anim.btt)
+        dateText.startAnimation(ttb)
+        mainContainer.startAnimation(btt)
+
+
     }
 
     fun get(url: String) {

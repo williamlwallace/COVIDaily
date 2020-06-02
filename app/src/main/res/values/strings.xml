@@ -8,4 +8,5 @@
     <string name="channel_description">daily number of cases notification</string>
     <string name="voice">Voice</string>
     <string name="search">Search</string>
+    <string name="logo">Logo</string>
 </resources>

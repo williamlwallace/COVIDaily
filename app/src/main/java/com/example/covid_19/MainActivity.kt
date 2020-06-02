@@ -98,6 +98,7 @@ class MainActivity : AppCompatActivity() {
                 (getSystemService(Context.ALARM_SERVICE) as AlarmManager)
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
         }
+
     }
 
     private fun createNotificationChannel() {

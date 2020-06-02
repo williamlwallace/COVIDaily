@@ -6,21 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/title"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="50dp"-->
-    <!--        android:fontFamily="@font/roboto"-->
-    <!--        android:text="COVIDaily"-->
-    <!--        android:textAlignment="center"-->
-    <!--        android:textAllCaps="true"-->
-    <!--        android:textColor="#FFFFFF"-->
-    <!--        android:textSize="30sp"-->
-    <!--        android:textStyle="bold"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/adamina"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/mainContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/mainContainer"
@@ -36,8 +33,9 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/newCasesText"
                 android:layout_width="wrap_content"
@@ -54,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:paddingBottom="15dp"
+                android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="@color/backgroundText"
                 android:textSize="18sp" />

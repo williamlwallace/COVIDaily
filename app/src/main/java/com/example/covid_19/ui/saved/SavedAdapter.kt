@@ -47,7 +47,7 @@ class SavedAdapter internal constructor(
         }
 
         //Unsave news article
-        val saveButton = view.findViewById<Button>(R.id.saveButton)
+        val saveButton = view.findViewById<ImageButton>(R.id.saveButton)
         saveButton.setOnClickListener {
             GlobalScope.launch {
                 AppDatabase.getDatabase(context, this).headlineDao().delete(headlines[holder.adapterPosition])
@@ -56,7 +56,7 @@ class SavedAdapter internal constructor(
         }
 
         //Share button functionality
-        val shareButton = view.findViewById<Button>(R.id.shareButton)
+        val shareButton = view.findViewById<ImageButton>(R.id.shareButton)
         shareButton.setOnClickListener{
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "plain/text"

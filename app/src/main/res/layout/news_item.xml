@@ -38,21 +38,25 @@
                     android:text="Headline"
                     android:textColor="@color/backgroundText" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/shareButton"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="0dp"
-                    android:background="@drawable/ic_share_black_24dp" />
+                    android:background="#1A000000"
+                    android:elevation="10dp"
+                    android:src="@drawable/ic_share_black_24dp" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/saveButton"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="0dp"
                     android:layout_toStartOf="@+id/shareButton"
-                    android:background="@drawable/ic_bookmark_black_24dp" />
+                    android:background="#1A000000"
+                    android:elevation="10dp"
+                    android:src="@drawable/ic_bookmark_black_24dp" />
             </RelativeLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
