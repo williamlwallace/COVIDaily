@@ -69,7 +69,10 @@ class SplashActivity : AppCompatActivity() {
         if (requestCode == PERMISSION_ID) {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 // Granted. Start getting the location information
-                startActivity(Intent(this, MainActivity::class.java))
+                getLastLocation()
+                Handler().postDelayed({
+                    startActivity(Intent(this, MainActivity::class.java))
+                }, SPLASH_TIME_OUT)
 
             }
         }
