@@ -5,8 +5,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient">
 
-    <!-- Don't worry about the id names I have named the id's with reference to the file name for consistency -->
-
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"

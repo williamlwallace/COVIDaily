@@ -35,7 +35,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:fontFamily="@font/adamina"
-                    android:text="Headline"
                     android:textColor="@color/backgroundText" />
 
                 <ImageButton

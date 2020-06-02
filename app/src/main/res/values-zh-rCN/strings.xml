@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_news">" 新闻"</string>
+    <string name="title_home">家</string>
+    <string name="title_saved">已保存</string>
+    <string name="title_settings">设定</string>
+    <string name="deaths">" 死亡"</string>
+    <string name="recovered">" 已恢复"</string>
+    <string name="confirmed">已确认</string>
+</resources>
