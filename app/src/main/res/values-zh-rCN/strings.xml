@@ -9,4 +9,6 @@
     <string name="confirmed">已确认</string>
     <string name="voice">语音</string>
     <string name="search">搜索</string>
+    <string name="notification_preference">使能通知</string>
+    <string name="build_preference">版本 号</string>
 </resources>

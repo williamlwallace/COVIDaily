@@ -11,4 +11,6 @@
     <string name="confirmed">Confirmed</string>
     <string name="deaths">Deaths</string>
     <string name="recovered">Recovered</string>
+    <string name="notification_preference">Enable daily notifications</string>
+    <string name="build_preference">Build version</string>
 </resources>
