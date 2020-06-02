@@ -8,6 +8,6 @@
     <Preference
         android:key="version"
         android:summary="1.0.0"
-        app:title=""
+        app:title="@string/build_preference"
         android:icon="@drawable/ic_build_white_24dp"/>
 </androidx.preference.PreferenceScreen>
