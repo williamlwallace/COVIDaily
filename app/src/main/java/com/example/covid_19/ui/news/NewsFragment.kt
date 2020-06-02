@@ -76,6 +76,7 @@ class NewsFragment : Fragment() {
     //Search functionality
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.toolbar, menu)
+
         val searchItem = menu.findItem(R.id.action_search)
         val searchManager: SearchManager =
             requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
