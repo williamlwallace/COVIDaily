@@ -7,4 +7,6 @@
     <string name="deaths">" 死亡"</string>
     <string name="recovered">" 已恢复"</string>
     <string name="confirmed">已确认</string>
+    <string name="voice">语音</string>
+    <string name="search">搜索</string>
 </resources>

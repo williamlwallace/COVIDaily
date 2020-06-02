@@ -15,6 +15,8 @@ import com.example.covid_19.Headline
 import com.example.covid_19.R
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
 
 class NewsAdapter (
     val context: Context,
@@ -86,7 +88,12 @@ class NewsAdapter (
                 filteredList.addAll(headlinesAll)
             } else {
                 for (headline in headlinesAll) {
-                    if (headline.title.toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                    if (headline.title.toLowerCase(Locale.ROOT).contains(
+                            charSequence.toString().toLowerCase(
+                                Locale.ROOT
+                            )
+                        )
+                    ) {
                         filteredList.add(headline)
                     }
                 }

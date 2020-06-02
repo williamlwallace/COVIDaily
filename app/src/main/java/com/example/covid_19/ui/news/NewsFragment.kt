@@ -60,7 +60,7 @@ class NewsFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sharedPreference = SharedPreference(activity!!.applicationContext)
+        sharedPreference = SharedPreference(requireActivity().applicationContext)
         val countryISO = sharedPreference.getValueString("COUNTRY_ISO")
         val parameters = mapOf("q" to "covid", "apiKey" to KEY, "country" to countryISO!!)
         val url = parameterizeUrl("https://newsapi.org/v2/top-headlines", parameters)
@@ -72,17 +72,18 @@ class NewsFragment : Fragment() {
         setHasOptionsMenu(true);
     }
 
+
     //Search functionality
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.toolbar, menu)
         val searchItem = menu.findItem(R.id.action_search)
         val searchManager: SearchManager =
-            activity!!.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+            requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
         if (searchItem != null) {
             searchView = searchItem.actionView as SearchView
         }
         if (searchView != null) {
-            searchView!!.setSearchableInfo(searchManager.getSearchableInfo(activity!!.componentName))
+            searchView!!.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
             queryTextListener = object : SearchView.OnQueryTextListener {
                 override fun onQueryTextChange(newText: String): Boolean {
                     newsAdapter.filter.filter(newText)
