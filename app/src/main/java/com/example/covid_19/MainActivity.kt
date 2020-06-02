@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
         intent1.putExtra("DAILY_NOTIFICATION", sharedPreference.getValueString("DAILY_NOTIFICATION"))
         val alarmUp =
             (PendingIntent.getBroadcast(applicationContext, 0, intent1, PendingIntent.FLAG_NO_CREATE)) != null
-        if (!alarmUp) {
+        if (!alarmUp && sharedPreference.getValueBoolean("notifications", defaultValue = true)) {
             val pendingIntent =
                 PendingIntent.getBroadcast(applicationContext, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT)
             val alarmManager: AlarmManager =

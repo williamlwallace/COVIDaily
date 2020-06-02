@@ -8,24 +8,11 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceFragmentCompat
 import com.example.covid_19.R
 
-class SettingsFragment : Fragment() {
-
-    private lateinit var settingsViewModel: SettingsViewModel
-
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        settingsViewModel =
-                ViewModelProviders.of(this).get(SettingsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_settings, container, false)
-        val textView: TextView = root.findViewById(R.id.text_settings)
-        settingsViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+class SettingsFragment : PreferenceFragmentCompat() {
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.preferences, rootKey)
     }
 }

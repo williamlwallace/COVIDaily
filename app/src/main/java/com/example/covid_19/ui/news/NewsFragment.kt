@@ -88,7 +88,6 @@ class NewsFragment : Fragment() {
                     newsAdapter.filter.filter(newText)
                     return true
                 }
-
                 override fun onQueryTextSubmit(query: String): Boolean {
                     return true
                 }
@@ -97,7 +96,6 @@ class NewsFragment : Fragment() {
         }
         super.onCreateOptionsMenu(menu, inflater)
     }
-
 
     @SuppressLint("StaticFieldLeak")
     inner class HeadlinesDownloader(val activity: NewsFragment) : AsyncTask<URL, Void, List<Headline>>() {
