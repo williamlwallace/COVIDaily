@@ -4,8 +4,6 @@
 
 COVIDaily aims to provide a central platform for viewing daily localised statistics and news concerning the virus. The application, using GPS location, updates daily with the latest corona virus counts using data from [COVID-19 API](https://www.covid19api.com) and news articles from [News API](https://newsapi.org/).
 
-GPS location with API data from covid19api.com and provides relevant news articles in your country using newsapi.org
-
 ### Features
 * Localised COVID-19 statistics
 * Localised and up to date news
