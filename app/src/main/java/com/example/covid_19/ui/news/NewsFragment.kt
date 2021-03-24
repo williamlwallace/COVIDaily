@@ -135,6 +135,7 @@ class NewsFragment : Fragment() {
 
     private fun getJson(url: URL): JSONObject {
         val connection = url.openConnection() as HttpsURLConnection
+        connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11")
         try {
             val json = BufferedInputStream(connection.inputStream).readBytes().toString(Charset.defaultCharset())
             return JSONObject(json)
