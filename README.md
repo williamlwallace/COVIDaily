@@ -17,5 +17,9 @@ COVIDaily aims to provide a central platform for viewing daily localised statist
 
 <p float="left" text-align="center">
   <img src="https://i.imgur.com/yQT6YM5.png" width="200"/>
+  <img src="https://i.imgur.com/l9NapNN.png" width="200"/>
+  <img src="https://i.imgur.com/YASIXNn.png" width="200"/>
+  <img src="https://i.imgur.com/jtGlIuE.png" width="200"/>
+  <img src="https://i.imgur.com/IE0S5gu.png" width="200"/>
 </p>
 
