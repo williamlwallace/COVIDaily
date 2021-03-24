@@ -1,4 +1,4 @@
-# COVIDaily <img src="https://i.imgur.com/ObvFDnR.png" width="40"/>
+# COVIDaily <img src="https://i.imgur.com/ObvFDnR.png" width="30"/>
 
 <img src="https://i.imgur.com/Ceeb9Li.png" width="200"/>
 
